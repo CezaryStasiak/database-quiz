@@ -8,6 +8,8 @@
 <body>
     <h1>Which Database Should You Use for Your Project?</h1>
     <form id="quizForm">
+        <!-- Existing questions from the previous version -->
+        
         <h3>Question 1: What type of data will you be primarily storing?</h3>
         <label><input type="radio" name="q1" value="MySQL OracleDB"> A) Structured (e.g., SQL-like tables)</label><br>
         <label><input type="radio" name="q1" value="MongoDB Firestore Couchbase"> B) Semi-structured (e.g., JSON, XML)</label><br>
@@ -56,6 +58,49 @@
         <label><input type="radio" name="q8" value="Couchbase Firestore"> C) Somewhat important</label><br>
         <label><input type="radio" name="q8" value="Redis"> D) Not important at all</label><br>
 
+        <!-- New extended questions -->
+        <h3>Question 9: What level of performance do you expect from the database?</h3>
+        <label><input type="radio" name="q9" value="Redis Cassandra"> A) Ultra-high performance, low latency</label><br>
+        <label><input type="radio" name="q9" value="MySQL OracleDB"> B) High performance, but willing to compromise for other features</label><br>
+        <label><input type="radio" name="q9" value="Firestore MongoDB"> C) Performance is secondary to ease of use and scalability</label><br>
+        <label><input type="radio" name="q9" value="Elasticsearch"> D) Performance is important for specific tasks like searching</label><br>
+
+        <h3>Question 10: How important is transactional support (ACID properties) for your application?</h3>
+        <label><input type="radio" name="q10" value="MySQL OracleDB"> A) Very important - I need full ACID compliance</label><br>
+        <label><input type="radio" name="q10" value="Cassandra MongoDB Couchbase"> B) Somewhat important - basic transactions are sufficient</label><br>
+        <label><input type="radio" name="q10" value="Firestore"> C) Not important - I can work with eventual consistency</label><br>
+        <label><input type="radio" name="q10" value="Elasticsearch Redis"> D) Not needed at all</label><br>
+
+        <h3>Question 11: What is your data model like?</h3>
+        <label><input type="radio" name="q11" value="MySQL OracleDB"> A) Relational (tables with rows and columns)</label><br>
+        <label><input type="radio" name="q11" value="MongoDB Firestore Couchbase"> B) Document-oriented (JSON-like documents)</label><br>
+        <label><input type="radio" name="q11" value="Elasticsearch Cassandra"> C) Key-Value or Wide-column (flexible schema, unstructured data)</label><br>
+        <label><input type="radio" name="q11" value="TimescaleDB"> D) Time-series</label><br>
+
+        <h3>Question 12: How frequently do you expect schema changes?</h3>
+        <label><input type="radio" name="q12" value="MongoDB Firestore Cassandra"> A) Frequent changes, need flexibility</label><br>
+        <label><input type="radio" name="q12" value="MySQL OracleDB"> B) Infrequent, schema is relatively stable</label><br>
+        <label><input type="radio" name="q12" value="Couchbase"> C) Schema-less or schema-on-read is preferred</label><br>
+        <label><input type="radio" name="q12" value="Elasticsearch TimescaleDB"> D) Changes will be managed, but performance is the priority</label><br>
+
+        <h3>Question 13: How large do you expect your dataset to grow?</h3>
+        <label><input type="radio" name="q13" value="Cassandra Elasticsearch OracleDB"> A) Massive scale (terabytes to petabytes)</label><br>
+        <label><input type="radio" name="q13" value="MySQL MongoDB"> B) Large scale (hundreds of gigabytes to terabytes)</label><br>
+        <label><input type="radio" name="q13" value="Firestore Couchbase"> C) Moderate scale (tens to hundreds of gigabytes)</label><br>
+        <label><input type="radio" name="q13" value="Redis"> D) Small scale (up to tens of gigabytes)</label><br>
+
+        <h3>Question 14: What is your budget for database infrastructure?</h3>
+        <label><input type="radio" name="q14" value="MySQL Cassandra Elasticsearch"> A) Cost is a major factor - looking for open-source or cost-effective solutions</label><br>
+        <label><input type="radio" name="q14" value="MongoDB Firestore Couchbase"> B) Willing to pay for managed services for simplicity</label><br>
+        <label><input type="radio" name="q14" value="OracleDB"> C) Budget is not a concern - high performance and reliability are priorities</label><br>
+        <label><input type="radio" name="q14" value="Redis"> D) I need a solution that can minimize ongoing costs</label><br>
+
+        <h3>Question 15: How important is security for your data?</h3>
+        <label><input type="radio" name="q15" value="OracleDB MySQL"> A) Very important - I need comprehensive security features</label><br>
+        <label><input type="radio" name="q15" value="Firestore MongoDB Couchbase"> B) Important, but I am okay with using managed services to handle it</label><br>
+        <label><input type="radio" name="q15" value="Elasticsearch Cassandra"> C) I need a balance between security and flexibility</label><br>
+        <label><input type="radio" name="q15" value="Redis"> D) Not a major concern</label><br>
+
         <br><input type="button" value="Submit" onclick="calculateScore()">
     </form>
 
@@ -78,7 +123,7 @@
                 'Couchbase': 0,
             };
 
-            for (let i = 1; i <= 8; i++) {
+            for (let i = 1; i <= 15; i++) {
                 const question = form['q' + i];
                 if (question.value) {
                     const answers = question.value.split(' ');
