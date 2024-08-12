@@ -109,61 +109,62 @@
 
     <h2 id="result">Your recommended database will appear here after you submit the quiz.</h2>
 
-    <script>
-        function calculateScore() {
-            const form = document.forms['quizForm'];
-            const resultElement = document.getElementById('result');
+<script>
+    function calculateScore() {
+        const form = document.forms['quizForm'];
+        const resultElement = document.getElementById('result');
 
-            const databases = {
-                'MySQL': 0,
-                'OracleDB': 0,
-                'MongoDB': 0,
-                'Firestore': 0,
-                'Elasticsearch': 0,
-                'Cassandra': 0,
-                'Redis': 0,
-                'TimescaleDB': 0,
-                'Couchbase': 0,
-            };
+        const databases = {
+            'MySQL': 0,
+            'OracleDB': 0,
+            'MongoDB': 0,
+            'Firestore': 0,
+            'Elasticsearch': 0,
+            'Cassandra': 0,
+            'Redis': 0,
+            'TimescaleDB': 0,
+            'Couchbase': 0,
+        };
 
-            const excludedDatabases = new Set();
+        const excludedDatabases = new Set();
 
-            for (let i = 1; i <= 15; i++) {
-                const question = form['q' + i];
-                if (question.value) {
-                    const answers = question.value.split(' ');
-                    answers.forEach(db => {
-                        if (!excludedDatabases.has(db)) {
-                            databases[db]++;
-                        }
-                    });
-
-                    const excludeAttr = question.getAttribute('data-exclude');
-                    if (excludeAttr) {
-                        const excludeList = excludeAttr.split(' ');
-                        excludeList.forEach(db => {
-                            excludedDatabases.add(db);
-                        });
+        for (let i = 1; i <= 15; i++) {
+            const questionElements = form.querySelectorAll(`input[name="q${i}"]:checked`);
+            
+            questionElements.forEach(input => {
+                const answers = input.value.split(' ');
+                answers.forEach(db => {
+                    if (!excludedDatabases.has(db)) {
+                        databases[db]++;
                     }
+                });
+
+                const excludeAttr = input.getAttribute('data-exclude');
+                if (excludeAttr) {
+                    const excludeList = excludeAttr.split(' ');
+                    excludeList.forEach(db => {
+                        excludedDatabases.add(db);
+                    });
                 }
-            }
+            });
+        }
 
-            let maxScore = 0;
-            let recommendedDB = '';
+        let maxScore = 0;
+        let recommendedDB = '';
 
-            for (const db in databases) {
-                if (databases[db] > maxScore && !excludedDatabases.has(db)) {
-                    maxScore = databases[db];
-                    recommendedDB = db;
-                }
-            }
-
-            if (recommendedDB) {
-                resultElement.textContent = "Your recommended database is: " + recommendedDB;
-            } else {
-                resultElement.textContent = "Please answer all questions to get a recommendation.";
+        for (const db in databases) {
+            if (databases[db] > maxScore && !excludedDatabases.has(db)) {
+                maxScore = databases[db];
+                recommendedDB = db;
             }
         }
-    </script>
+
+        if (recommendedDB) {
+            resultElement.textContent = "Your recommended database is: " + recommendedDB;
+        } else {
+            resultElement.textContent = "Please answer all questions to get a recommendation.";
+        }
+    }
+</script>
 </body>
 </html>
